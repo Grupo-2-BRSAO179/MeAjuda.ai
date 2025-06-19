@@ -17,7 +17,7 @@ from functions import (
     read_csv_from_uploaded_file,
 )
 
-PROFILE_NAME = os.environ.get("AWS_PROFILE", "grupo02")
+PROFILE_NAME = os.environ.get("AWS_PROFILE", "edn179")
 
 INFERENCE_PROFILE_ARN = "arn:aws:bedrock:us-east-1:851614451056:inference-profile/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
 
@@ -51,12 +51,12 @@ def add_javascript():
 # alterar
 st.set_page_config(
     page_title="MeAjuda.AI",
-    page_icon="teddy-bear.svg",
+    page_icon="imgs/logo_meajuda_v4.svg",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-logo_path = "teddy-bear.svg"
+logo_path = "imgs/logo_meajuda_v4.svg"
 
 
 def preprocess_user_message(message):
@@ -66,7 +66,7 @@ def preprocess_user_message(message):
     return message
 
 
-def get_boto3_client(service_name, region_name="us-east-1", profile_name="grupo02"):
+def get_boto3_client(service_name, region_name="us-east-1", profile_name="edn179"):
     """
     Retorna um cliente do serviço AWS especificado.
 
@@ -688,6 +688,7 @@ st.markdown(
     }
     
     /* Mensagens */
+    
     .chat-message {
         padding: 1rem;
         border-radius: 0.5rem;
@@ -717,18 +718,18 @@ st.markdown(
     }
     
     /* Entrada de mensagem */
-    .input-container {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 800px;
-        background-color: white;
-        padding: 1rem;
-        border-top: 1px solid #e6e6e6;
-        z-index: 998;
-    }
+    /* .input-container {
+    /*     position: fixed;
+    /*     bottom: 0;
+    /*     left: 50%;
+    /*     transform: translateX(-50%);
+    /*     width: 90%;
+    /*     max-width: 800px;
+    /*     background-color: white;
+    /*     padding: 1rem;
+    /*     border-top: 1px solid #e6e6e6;
+    /*     z-index: 998;
+    /* }
     
     /* Sidebar */
     .sidebar .sidebar-content {
@@ -747,9 +748,16 @@ st.markdown(
     }
     
     .stButton button {
-        border-radius: 4px;
+        border-radius: 15px;
         padding: 0.5rem 1rem;
         font-weight: 500;
+        background-color: #57AFBF !important;
+        color: #0e1117 !important;
+    }
+    
+    .stButton button:hover {
+        color: #0e1117 !important;
+        border-color: white !important;
     }
     
     /* Message Actions */
@@ -805,7 +813,7 @@ st.markdown(
         padding: 1rem;
         font-size: 1.5rem;
         font-weight: bold;
-        color: #4CAF50;
+        color: #57AFBF;
     }
     
     /* Custom Scrollbar */
@@ -1039,13 +1047,13 @@ if check_password():
             st.image(logo_path, width=50)
         with col2:
             st.markdown(
-                '<h2 style="margin-top: 0;">Chat IA</h2>', unsafe_allow_html=True
+                '<h2 style="margin-top: 0;">Me Ajuda.AI</h2>', unsafe_allow_html=True
             )
 
         st.divider()
 
         st.button(
-            "🔄 Nova Conversa", on_click=create_new_chat, use_container_width=True
+            "Nova Conversa", on_click=create_new_chat, use_container_width=True
         )
 
         st.divider()
@@ -1055,14 +1063,14 @@ if check_password():
             col1, col2 = st.columns([5, 1])
             with col1:
                 if st.button(
-                    f"📝 {chat['title']}",
+                    f"{chat['title']}",
                     key=f"chat_{idx}",
                     use_container_width=True,
                     help="Clique para abrir esta conversa",
                 ):
                     load_chat(idx)
             with col2:
-                if st.button("🗑️", key=f"delete_{idx}", help="Excluir conversa"):
+                if st.button("❌", key=f"delete_{idx}", help="Excluir conversa"):
                     delete_chat(idx)
 
         use_rag = st.checkbox(
@@ -1138,28 +1146,30 @@ if check_password():
 
         st.markdown('<div class="input-container">', unsafe_allow_html=True)
 
-        col1, col2, col3 = st.columns([5, 1, 1])
+        col1, col3 = st.columns([5, 1])
 
         with col1:
             st.text_area(
                 "Mensagem",
-                placeholder="Digite sua mensagem aqui...",
+                placeholder="Me conte com o que você precisa de ajuda...",
                 key="user_input",
                 height=70,
                 label_visibility="collapsed",
             )
 
-        with col2:
-            file_to_send = st.file_uploader(
-                "Anexar arquivo",
-                type=["pdf", "txt", "csv", "doc", "docx", "xls", "xlsx"],
-                key="file_to_send",
-                label_visibility="collapsed",
-            )
-            st.markdown(
-                '<div class="attach-icon" title="Anexar arquivo"><i class="fas fa-paperclip"></i></div>',
-                unsafe_allow_html=True,
-            )
+        # Sem anexo de arquivo, por enquanto
+
+        # with col2:
+        #     file_to_send = st.file_uploader(
+        #         "Anexar arquivo",
+        #         type=["pdf", "txt", "csv", "doc", "docx", "xls", "xlsx"],
+        #         key="file_to_send",
+        #         label_visibility="collapsed",
+        #     )
+        #     st.markdown(
+        #         '<div class="attach-icon" title="Anexar arquivo"><i class="fas fa-paperclip"></i></div>',
+        #         unsafe_allow_html=True,
+        #     )
 
         with col3:
             if st.button("Enviar", key="send_button", use_container_width=True):
