@@ -9,6 +9,7 @@ from datetime import datetime
 import re
 import base64
 import os
+from pathlib import Path
 from functions import (
     generate_chat_prompt,
     format_context,
@@ -49,14 +50,14 @@ def add_javascript():
 
 
 # alterar
+logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "imgs", "logo_meajuda_v4.png")
+
 st.set_page_config(
     page_title="MeAjuda.AI",
-    page_icon="imgs/logo_meajuda_v4.svg",
+    page_icon=logo_path,
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-logo_path = "imgs/logo_meajuda_v4.svg"
 
 
 def preprocess_user_message(message):
@@ -165,6 +166,18 @@ def query_bedrock(
             "sessionId": session_id or str(uuid.uuid4()),
         }
 
+# CONVERSÃO DE IMAGENS
+def img_to_bytes(img_relative_path):
+    base_path = Path(__file__).parent
+    img_path = base_path / img_relative_path
+    img_bytes = Path(img_path).read_bytes()
+    encoded = base64.b64encode(img_bytes).decode()
+    return encoded
+def img_to_html(img_relative_path):
+    img_html = "<img src='data:image/png;base64,{}' class='img-fluid' style='width: 200px;'>".format(
+      img_to_bytes(img_relative_path)
+    )
+    return img_html
 
 def check_password():
     """Returns `True` if the user had the correct password."""
@@ -239,14 +252,14 @@ def check_password():
                     background-color: #f0f2f6;
                     color: #000000;
                 }
-                .login-form {
+                /*.login-form {
                     max-width: 400px;
                     margin: 0 auto;
                     padding: 2rem;
                     border-radius: 10px;
                     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                     background-color: white;
-                }
+                }*/
                 .login-title {
                     margin-bottom: 2rem;
                     text-align: center;
@@ -262,6 +275,15 @@ def check_password():
         )
 
         st.markdown('<div class="login-form">', unsafe_allow_html=True)
+        # REMOVER ESPAÇAMENTO GIGANTE ENTRE IMAGEM E TÍTULO
+        st.markdown("""
+                    <style>
+                        .block-container {
+                            padding-top: 1rem !important;
+                        }
+                    </style>
+                    """, unsafe_allow_html=True)
+        st.markdown("<div style='display: flex; justify-content: center;'>"+img_to_html('imgs/Title-MeAjudaAi.png')+"</div>", unsafe_allow_html=True)
         st.markdown('<h1 class="login-title">Login</h1>', unsafe_allow_html=True)
 
         st.text_input("Usuário", key="username")
