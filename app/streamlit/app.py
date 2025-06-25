@@ -1,10 +1,10 @@
-import streamlit as st #pip
-import requests #pip
+import streamlit as st
+import requests
 import json
 import hmac
 import uuid
 import time
-import boto3 #pip
+import boto3
 from datetime import datetime
 import re
 import base64
@@ -18,7 +18,7 @@ from functions import (
     read_csv_from_uploaded_file,
 )
 
-PROFILE_NAME = os.environ.get("AWS_PROFILE", "edn179")
+PROFILE_NAME = os.environ.get("AWS_PROFILE")
 
 INFERENCE_PROFILE_ARN = "arn:aws:bedrock:us-east-1:851614451056:inference-profile/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
 
@@ -111,10 +111,10 @@ def query_bedrock(
     # ALTERAR
     if model_params is None:
         model_params = {
-            "temperature": 1.0,
-            "top_p": 0.85,
-            "top_k": 200,
-            "max_tokens": 800,
+            "temperature": 0.2,
+            "top_p": 0.5,
+            "top_k": 100,
+            "max_tokens": 500,
             "response_format": {"type": "text"},
         }
 
