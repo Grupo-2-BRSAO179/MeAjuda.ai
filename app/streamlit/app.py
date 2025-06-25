@@ -20,7 +20,7 @@ from functions import (
 
 PROFILE_NAME = os.environ.get("AWS_PROFILE")
 
-INFERENCE_PROFILE_ARN = "arn:aws:bedrock:us-east-1:851614451056:inference-profile/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+INFERENCE_PROFILE_ARN = "arn:aws:bedrock:us-east-1:851614451056:inference-profile/us.anthropic.claude-sonnet-4-20250514-v1:0"
 
 
 def add_javascript():
@@ -1095,42 +1095,42 @@ if check_password():
                 if st.button("❌", key=f"delete_{idx}", help="Excluir conversa"):
                     delete_chat(idx)
 
-        use_rag = st.checkbox(
-            "Usar Contexto Adicional (RAG)", value=st.session_state.use_rag
-        )
-        st.session_state.use_rag = use_rag
+        # use_rag = st.checkbox(
+        #     "Usar Contexto Adicional (RAG)", value=st.session_state.use_rag
+        # )
+        # st.session_state.use_rag = use_rag
 
-        if use_rag:
-            rag_source = st.radio(
-                "Fonte do Contexto",
-                ("Arquivo", "Texto Direto"),
-                index=("Arquivo", "Texto Direto").index(st.session_state.rag_source),
-            )
-            st.session_state.rag_source = rag_source
+        # if use_rag:
+        #     rag_source = st.radio(
+        #         "Fonte do Contexto",
+        #         ("Arquivo", "Texto Direto"),
+        #         index=("Arquivo", "Texto Direto").index(st.session_state.rag_source),
+        #     )
+        #     st.session_state.rag_source = rag_source
 
-            if rag_source == "Arquivo":
-                file_type = st.selectbox(
-                    "Tipo de Arquivo",
-                    ("PDF", "TXT", "CSV"),
-                    index=("PDF", "TXT", "CSV").index(st.session_state.file_type),
-                )
-                st.session_state.file_type = file_type
-                uploaded_file = st.file_uploader(
-                    f"Carregar Arquivo {file_type}", type=file_type, key="file_uploader"
-                )
-                st.session_state.uploaded_file = uploaded_file
+        #     if rag_source == "Arquivo":
+        #         file_type = st.selectbox(
+        #             "Tipo de Arquivo",
+        #             ("PDF", "TXT", "CSV"),
+        #             index=("PDF", "TXT", "CSV").index(st.session_state.file_type),
+        #         )
+        #         st.session_state.file_type = file_type
+        #         uploaded_file = st.file_uploader(
+        #             f"Carregar Arquivo {file_type}", type=file_type, key="file_uploader"
+        #         )
+        #         st.session_state.uploaded_file = uploaded_file
 
-            elif rag_source == "Texto Direto":
-                direct_text = st.text_area(
-                    "Inserir Texto de Contexto",
-                    value=st.session_state.get("direct_text", ""),
-                    height=150,
-                    key="direct_text",
-                )
-            st.divider()
+        #     elif rag_source == "Texto Direto":
+        #         direct_text = st.text_area(
+        #             "Inserir Texto de Contexto",
+        #             value=st.session_state.get("direct_text", ""),
+        #             height=150,
+        #             key="direct_text",
+        #         )
+        #     st.divider()
 
-            if st.button("Logout", use_container_width=True):
-                logout()
+        #     if st.button("Logout", use_container_width=True):
+        #         logout()
 
     main_col1, main_col2, main_col3 = st.columns([1, 10, 1])
 
