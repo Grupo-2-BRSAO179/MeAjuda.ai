@@ -18,7 +18,7 @@ from functions import (
     read_csv_from_uploaded_file,
 )
 
-PROFILE_NAME = os.environ.get("AWS_PROFILE")
+PROFILE_NAME = os.environ.get("AWS_PROFILE", "")
 
 INFERENCE_PROFILE_ARN = "arn:aws:bedrock:us-east-1:851614451056:inference-profile/us.anthropic.claude-sonnet-4-20250514-v1:0"
 
@@ -67,7 +67,7 @@ def preprocess_user_message(message):
     return message
 
 
-def get_boto3_client(service_name, region_name="us-east-1", profile_name="edn179"):
+def get_boto3_client(service_name, region_name="us-east-1", profile_name=""):
     """
     Retorna um cliente do serviço AWS especificado.
 
